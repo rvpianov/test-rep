@@ -1,6 +1,8 @@
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SortTests {
@@ -99,10 +101,80 @@ public class SortTests {
     }
 
     @Test
-    void factorialTests(){
+    void factorialTests() {
         System.out.println(factorial(4));
         System.out.println(factorial(5));
         System.out.println(factorial(10));
+    }
+
+    // находим максимальный элемент в списке
+    private int findMax(List<Integer> arr) {
+
+        if (arr.size() == 1) {
+            return arr.get(0);
+        }
+        int subMax = findMax(arr.subList(1, arr.size()));
+        if (arr.get(0) > subMax) {
+            return arr.get(0);
+        } else
+            return subMax;
+    }
+
+    @Test
+    void findMaxValueTest() {
+        System.out.println("max value  = " + findMax(new ArrayList<>(List.of(100, 2, 399, 400, 5, 6, 7, 8, 9099))));
+        System.out.println("max value  = " + findMax(new ArrayList<>(List.of(109))));
+        System.out.println("max value  = " + findMax(new ArrayList<>(List.of(100,100, 100))));
+        System.out.println("max value  = " + findMax(new ArrayList<>(List.of(0,-11100, 0))));
+    }
+
+    //  подсчитываем count
+    private int countElements(List<Integer> arr) {
+
+        if (arr.isEmpty()) {
+            return 0;
+        }
+        return 1 + countElements(arr.subList(1, arr.size()));
+    }
+
+    @Test
+    void countElementsInArrayTests() {
+        System.out.println("count  = " + countElements(new ArrayList<>(List.of(100, 2, 399, 400, 5, 6, 7, 8, 9099))));
+        System.out.println("count  = " + countElements(new ArrayList<>(List.of(109))));
+        System.out.println("count  = " + countElements(new ArrayList<>(List.of(100,100, 100))));
+        System.out.println("count  = " + countElements(new ArrayList<>(List.of(0,-11100, 0))));
+        System.out.println("count  = " + countElements(new ArrayList<>(List.of(10, 0))));
+    }
+
+    // метод быстрой сортировки. в качестве опорного элемента берется первый
+    private List<Integer> quickSort(List<Integer> arr){
+        if(arr.size()<2){
+            return arr;
+        }
+        int basis = arr.get(0); // за опорный элемент берем первый в массиве
+        List<Integer> lessArray = new ArrayList<>();
+        List<Integer> greaterArray = new ArrayList<>();
+
+        for (int i = 1; i<arr.size(); i++){
+            if(basis > arr.get(i)){
+                lessArray.add(arr.get(i));
+            } else{
+                greaterArray.add(arr.get(i));
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        result.addAll(quickSort(lessArray));
+        result.add(basis);
+        result.addAll(quickSort(greaterArray));
+        return result;
+    }
+
+    @Test
+    void quickSortTest(){
+        System.out.println(quickSort(new ArrayList<>(List.of(-9,-100, 12, 0, 99, 55, 3, -65))));
+        System.out.println(quickSort(Arrays.asList(10,-10, 12, 0)));
+        System.out.println(quickSort(List.of(10)));
+        System.out.println(quickSort(Collections.emptyList()));
     }
 
 }
