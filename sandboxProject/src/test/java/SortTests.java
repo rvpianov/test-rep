@@ -124,8 +124,8 @@ public class SortTests {
     void findMaxValueTest() {
         System.out.println("max value  = " + findMax(new ArrayList<>(List.of(100, 2, 399, 400, 5, 6, 7, 8, 9099))));
         System.out.println("max value  = " + findMax(new ArrayList<>(List.of(109))));
-        System.out.println("max value  = " + findMax(new ArrayList<>(List.of(100,100, 100))));
-        System.out.println("max value  = " + findMax(new ArrayList<>(List.of(0,-11100, 0))));
+        System.out.println("max value  = " + findMax(new ArrayList<>(List.of(100, 100, 100))));
+        System.out.println("max value  = " + findMax(new ArrayList<>(List.of(0, -11100, 0))));
     }
 
     //  подсчитываем count
@@ -141,24 +141,24 @@ public class SortTests {
     void countElementsInArrayTests() {
         System.out.println("count  = " + countElements(new ArrayList<>(List.of(100, 2, 399, 400, 5, 6, 7, 8, 9099))));
         System.out.println("count  = " + countElements(new ArrayList<>(List.of(109))));
-        System.out.println("count  = " + countElements(new ArrayList<>(List.of(100,100, 100))));
-        System.out.println("count  = " + countElements(new ArrayList<>(List.of(0,-11100, 0))));
+        System.out.println("count  = " + countElements(new ArrayList<>(List.of(100, 100, 100))));
+        System.out.println("count  = " + countElements(new ArrayList<>(List.of(0, -11100, 0))));
         System.out.println("count  = " + countElements(new ArrayList<>(List.of(10, 0))));
     }
 
     // метод быстрой сортировки. в качестве опорного элемента берется первый
-    private List<Integer> quickSort(List<Integer> arr){
-        if(arr.size()<2){
+    private List<Integer> quickSort(List<Integer> arr) {
+        if (arr.size() < 2) {
             return arr;
         }
         int basis = arr.get(0); // за опорный элемент берем первый в массиве
         List<Integer> lessArray = new ArrayList<>();
         List<Integer> greaterArray = new ArrayList<>();
 
-        for (int i = 1; i<arr.size(); i++){
-            if(basis > arr.get(i)){
+        for (int i = 1; i < arr.size(); i++) {
+            if (basis > arr.get(i)) {
                 lessArray.add(arr.get(i));
-            } else{
+            } else {
                 greaterArray.add(arr.get(i));
             }
         }
@@ -170,11 +170,44 @@ public class SortTests {
     }
 
     @Test
-    void quickSortTest(){
-        System.out.println(quickSort(new ArrayList<>(List.of(-9,-100, 12, 0, 99, 55, 3, -65))));
-        System.out.println(quickSort(Arrays.asList(10,-10, 12, 0)));
+    void quickSortTest() {
+        System.out.println(quickSort(new ArrayList<>(List.of(-9, -100, 12, 0, 99, 55, 3, -65))));
+        System.out.println(quickSort(Arrays.asList(10, -10, 12, 0)));
         System.out.println(quickSort(List.of(10)));
         System.out.println(quickSort(Collections.emptyList()));
+    }
+
+    private List<Integer> quickSort2(List<Integer> arr) {
+        if (arr.size() < 2) {
+            return arr;
+        }
+        int basis = arr.get(arr.size() / 2); // за опорный элемент берем элемент из середины
+        List<Integer> lessArray = new ArrayList<>();
+        List<Integer> greaterArray = new ArrayList<>();
+
+        for (Integer elem : arr) {
+            if (elem == basis) {
+                continue;
+            }
+            if (basis > elem) {
+                lessArray.add(elem);
+            } else {
+                greaterArray.add(elem);
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        result.addAll(quickSort2(lessArray));
+        result.add(basis);
+        result.addAll(quickSort2(greaterArray));
+        return result;
+    }
+
+    @Test
+    void quickSort2Test() {
+        System.out.println(quickSort2(new ArrayList<>(List.of(-9, -100, 12, 0, 99, 55, 3, -65))));
+        System.out.println(quickSort2(Arrays.asList(10, -10, 12, 0)));
+        System.out.println(quickSort2(List.of(10)));
+        System.out.println(quickSort2(Collections.emptyList()));
     }
 
 }
