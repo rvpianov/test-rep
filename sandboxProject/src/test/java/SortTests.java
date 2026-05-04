@@ -1,9 +1,6 @@
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class SortTests {
 
@@ -209,5 +206,50 @@ public class SortTests {
         System.out.println(quickSort2(List.of(10)));
         System.out.println(quickSort2(Collections.emptyList()));
     }
+
+    // поиск в ширину
+    public String breadthFirstSearch(Map<String, List<String>> graph) {
+        Queue<String> queue = new LinkedList<>();
+        queue.addAll(graph.get("you"));
+        Set<String> searched = new HashSet<>();
+        while (!queue.isEmpty()) {
+            //System.out.println(queue.size());
+            String person = queue.poll();
+            if (!searched.contains(person)) {
+                System.out.println(person);
+                if (checkPersonIsSeller(person)) {
+                    System.out.println("person " + person + " is seller!");
+                    return person;
+                } else {
+                    queue.addAll(graph.get(person));
+                    searched.add(person);
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean checkPersonIsSeller(String person) {
+        return person.equals("tom");
+    }
+
+    @Test
+    void checkPersonIsSellerTest(){
+        Map<String, List<String>> graph = new HashMap<>();
+        //graph.put("you", List.of("alice", "bob", "claire"));
+        graph.put("you", List.of("claire", "alice", "bob"));
+        graph.put("bob", List.of("anuj" , "peggy"));
+        graph.put("alice", List.of( "peggy"));
+        graph.put("claire", List.of( "tom", "jonny"));
+        graph.put("anuj", Collections.emptyList());
+        graph.put("peggy", Collections.emptyList());
+        graph.put("tom", Collections.emptyList());
+        graph.put("jonny", Collections.emptyList());
+
+        System.out.println(breadthFirstSearch(graph));
+
+
+    }
+
 
 }
